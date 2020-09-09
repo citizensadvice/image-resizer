@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  image-resizer
+
+Parameters:
+  AppBucketName:
+    Type: String
+    Description: "REQUIRED: Unique S3 bucket name to use for the app."
+
+Resources:
+  ImageResizerHandlerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/index.imageResizerHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 60
+      Environment:
+        Variables:
+          SOURCE_BUCKETS: test-bucket
+      Policies:
+        S3ReadPolicy:
+          BucketName: !Ref AppBucketName
+      Events:
+        S3NewObjectEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref AppBucket
+            Events: s3:ObjectCreated:*
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: ".jpg"
+  AppBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref AppBucketName
