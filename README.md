@@ -32,7 +32,7 @@ To use the AWS SAM CLI, you need the following tools:
 To build and deploy your application for the first time, run the following in your shell:
 
 ```bash
-sam build
+sam build -u
 sam deploy --guided
 ```
 
@@ -50,7 +50,7 @@ The first command will build the source of your application. The second command 
 Build your application by using the `sam build` command.
 
 ```bash
-my-application$ sam build
+my-application$ sam build -u
 ```
 
 The AWS SAM CLI installs dependencies that are defined in `package.json`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
