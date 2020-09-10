@@ -32,7 +32,7 @@ Resources:
               S3Key:
                 Rules:
                   - Name: suffix
-                    Value: ".jpg"
+                    Value: ['.jpeg', '.png', '.webp', '.tiff', '.heif']
   AppBucket:
     Type: AWS::S3::Bucket
     Properties:
