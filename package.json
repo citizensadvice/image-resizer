@@ -24,7 +24,7 @@
     "build:init": "rm -rf .aws-sam/ dist/ node_modules/",
     "build:zip": "zip -rq image-resizer.zip .",
     "build:dist": "mkdir dist && mv image-resizer.zip dist/",
-    "build": "npm run build:init && npm install --arch=x64 --platform=linux --production && npm run build:zip && npm run build:dist",
+    "build": "npm run build:init && npm install --arch=x64 --platform=linux --production",
     "debug": "sam local invoke ImageResizerHandlerFunction --event events/event-s3.json --parameter-overrides AppBucketName=test-bucket"
   },
   "jest": {
