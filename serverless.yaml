@@ -1,0 +1,48 @@
+# sls plugin install --name serverless-s3-local
+# sls plugin install --name serverless-offline
+# 
+# sls offline start
+# 
+# add:
+# [sls-local-s3]
+# region = eu-west-1
+# aws_access_key_id = S3RVER
+# aws_secret_access_key = S3RVER
+# 
+# to ~/.aws/credentials
+# 
+# # copy test image to the lcoal bucket
+# aws s3 --endpoint  http://localhost:8000 cp image.jpg s3://test-bucket.localhost/test/ --profile sls-local-s3
+#
+# run the lambda locally:
+# 
+#   sls invoke local -f resizer --path events/event-s3.json -e SOURCE_BUCKETS=test-bucket -e S3_ENDPOINT=http://localhost:8000 --profile sls-local-s3 
+
+service: serverless-s3-local-example
+provider:
+  name: aws
+  runtime: nodejs12.x
+plugins:
+  - serverless-s3-local
+  - serverless-offline
+custom:
+  s3:
+    port: 8000
+    directory: /tmp
+resources:
+  Resources:
+    NewResource:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: test-bucket.localhost
+functions:
+  resizer:
+    handler: src/handlers/index.imageResizerHandler
+    events:
+      - s3:
+          bucket: photos
+          existing: true 
+          event: s3:ObjectCreated:*
+          rules:    
+            - prefix: uploads/
+            - suffix: .jpg

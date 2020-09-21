@@ -14,7 +14,10 @@
   "devDependencies": {
     "aws-sdk": "2.631.0",
     "aws-sdk-mock": "^4.4.0",
-    "jest": "^24.7.1"
+    "jest": "^24.7.1",
+    "serverless": "^2.1.1",
+    "serverless-offline": "^6.7.0",
+    "serverless-s3-local": "^0.6.5"
   },
   "scripts": {
     "test": "jest",

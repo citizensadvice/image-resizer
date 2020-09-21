@@ -25,10 +25,12 @@ class ImageRequest {
             const params = {
                 "bucket": event['Records'][0]['s3']['bucket']['name'],
                 "key": event['Records'][0]['s3']['object']['key'],
+                "path": event['Records'][0]['s3']['object']['key'],
                 "type": event['Records'][0]['eventName'],
                 "edits" : {},
                 "outputFormat" : null
               };
+            console.info(params);
             this.requestType = this.parseRequestType(params);
             this.bucket = this.parseImageBucket(params, this.requestType);
             this.key = this.parseImageKey(params, this.requestType);
@@ -78,7 +80,7 @@ class ImageRequest {
      */
     async getOriginalImage(bucket, key) {
         const S3 = require('aws-sdk/clients/s3');
-        const s3 = new S3();
+        const s3 = process.env.S3_ENDPOINT ? new S3({endpoint: process.env.S3_ENDPOINT}) : new S3();
         const imageLocation = { Bucket: bucket, Key: key };
         try {
             const originalImage = await s3.getObject(imageLocation).promise();

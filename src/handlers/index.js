@@ -15,12 +15,12 @@ const ImageRequest = require('./image-request.js');
 const ImageHandler = require('./image-handler.js');
 
 exports.imageResizerHandler = async (event) => {
-    console.log(">>>>");
     console.log(event);
     const imageRequest = new ImageRequest();
     const imageHandler = new ImageHandler();
     try {
         const request = await imageRequest.setup(event);
+        console.log("=== request");
         console.log(request);
         const processedRequest = await imageHandler.process(request);
 

@@ -137,7 +137,7 @@ class ImageHandler {
      * @param {object} sourceImageMetadata - The metadata of the source image.
      */
     async getOverlayImage(bucket, key, wRatio, hRatio, alpha, sourceImageMetadata) {
-        const s3 = new AWS.S3();
+        const s3 = process.env.S3_ENDPOINT ? new AWS.S3({endpoint: process.env.S3_ENDPOINT}) : new AWS.S3();
         const params = { Bucket: bucket, Key: key };
         try {
             const { width, height } = sourceImageMetadata;
