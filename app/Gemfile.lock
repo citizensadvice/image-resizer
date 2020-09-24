@@ -8,6 +8,9 @@ GEM
     mini_magick (4.10.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
+    nio4r (2.5.4)
+    puma (5.0.0)
+      nio4r (~> 2.0)
     rack (2.2.3)
     rack-protection (2.1.0)
       rack
@@ -26,6 +29,7 @@ PLATFORMS
 
 DEPENDENCIES
   image_processing
+  puma
   sinatra
 
 RUBY VERSION

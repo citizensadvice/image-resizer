@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 ruby "2.6.6"
 
-# Sinatra
 gem 'sinatra'
-
-# Image processing
+gem 'puma'
 gem "image_processing"
