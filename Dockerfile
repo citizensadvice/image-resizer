@@ -14,9 +14,9 @@ RUN apk -U upgrade \
 
 RUN apk -U upgrade && apk add imagemagick
 
-COPY app/* ./
+COPY app /app
 RUN gem install bundler && bundle install
 
 EXPOSE 4567
 
-CMD ruby app.rb
+CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "4567"]
