@@ -2,6 +2,13 @@
 
 A Ruby app to resize images built with the Sinatra web framework and ImageMagic library.
 
+```sh
+cd app
+bundle install
+rackup
+open http:localhost:9292
+```
+
 ## Docker container
 
 The `Dockerfile` creates the app's image based on Ruby Alpine. There are a few dependencies for the `image_processing` gem that are added to that and then the ruby gems and app code.
