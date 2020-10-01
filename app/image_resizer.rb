@@ -1,13 +1,12 @@
 require "image_processing/mini_magick"
 
-
 class ImageResizeService
   FIRST_PAGE = 0
   IMAGE_TYPES_REQUIRING_CONVERSION = [
     "image/tiff"
   ].freeze
-  RESIZE_WIDTH
-  RESIZE_HEIGHT
+  RESIZE_WIDTH = 800
+  RESIZE_HEIGHT = 800
 
   def self.call(file, mime_type)
     new(file, mime_type).call
