@@ -15,8 +15,8 @@ get '/test/png' do
 	body resized_image
 end
 
-get '/test/tiff' do
-	image_file = File.open('./test_images/test-png-1102x1287px.png')
+get '/test/tif' do
+	image_file = File.open('./test_images/test-bad-tif.tif')
 	resized_image = ImageResizeService.call(image_file, 'image/tiff')
 	status 200
 	body resized_image
