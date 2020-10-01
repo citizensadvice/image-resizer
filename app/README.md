@@ -18,3 +18,10 @@ Here are the some commands for development and testing purposes based on the gui
 - `docker build -t sinatra-app . --no-cache`
 - `docker run -p 80:4567 sinatra-app`
 - `open http://localhost`
+
+## Testing
+
+Use `curl` to test sending requests to the host paths and download the returned images. Note that `.tif` format files are converted to `.png` files.
+
+- `curl http://localhost/test/png --output ./resized-png.png`
+- `curl http://localhost/test/tif --output ./resized-tif-converted-to-png.png`
