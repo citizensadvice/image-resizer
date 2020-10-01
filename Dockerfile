@@ -12,7 +12,7 @@ RUN apk -U upgrade \
  && apk add -t vips-dev \
  && rm -rf /tmp/* /var/cache/apk/*
 
-RUN apk -U upgrade && apk add imagemagick tiffcp
+RUN apk -U upgrade && apk add imagemagick tiff-tools
 
 COPY app /app
 RUN gem install bundler && bundle install
