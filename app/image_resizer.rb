@@ -22,7 +22,7 @@ class ImageResizeService
 
   def resize_image
     file = @file
-    file = copy_tiff(file) if requires_conversion?
+    file = copy_tiff(@file) if requires_conversion?
     pipeline = ImageProcessing::MiniMagick.source(file)
     pipeline = pipeline.convert("png").loader(page: FIRST_PAGE) if requires_conversion?
     pipeline.resize_to_limit!(RESIZE_WIDTH, RESIZE_HEIGHT)
