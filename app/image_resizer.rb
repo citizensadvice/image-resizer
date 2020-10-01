@@ -20,13 +20,6 @@ class ImageResizeService
 
   private
 
-  # https://www.imagemagick.org/discourse-server/viewtopic.php?t=33626
-  def copy_tiff(file)
-    copied = Tempfile.new(["copy", ".tif"], binmode: true)
-    system("tiffcp #{file.path} #{copied.path}", exception: true, err: File::NULL)
-    copied
-  end
-
   def resize_image
     file = @file
     file = copy_tiff(@file) if requires_conversion?
@@ -37,5 +30,12 @@ class ImageResizeService
 
   def requires_conversion?
     @_requires_conversion ||= (@mime_type == "image/tiff")
+  end
+
+  # https://www.imagemagick.org/discourse-server/viewtopic.php?t=33626
+  def copy_tiff(file)
+    copied = Tempfile.new(["copy", ".tif"], binmode: true)
+    system("tiffcp #{file.path} #{copied.path}", exception: true, err: File::NULL)
+    copied
   end
 end
