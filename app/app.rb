@@ -22,13 +22,14 @@ get '/test/tif' do
 	body resized_image
 end
 
-post '/resize' do
-	if params.key?(:image) && params.key?(:mime_type)
-		resized_image = ImageResizeService.call(params[:image], params[:mime_type])
-		status 200
-		body resized_image
-	else
-		status 400
-		body 'Bad request or missing param for image'
-	end
+post '/image' do
+	mime_type = request.content_type
+	puts mime_type
+
+	image_file = request.body.read
+	
+	resized_image = ImageResizeService.call(image_file, mime_type)
+	
+	status 200
+	body resized_image
 end
