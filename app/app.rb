@@ -22,7 +22,7 @@ get '/test/tif' do
 	body resized_image
 end
 
-get '/resize_image' do
+post '/resize' do
 	if params.key?(:image) && params.key?(:mime_type)
 		resized_image = ImageResizeService.call(params[:image], params[:mime_type])
 		status 200
