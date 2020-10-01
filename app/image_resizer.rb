@@ -2,9 +2,6 @@ require "image_processing/mini_magick"
 
 class ImageResizeService
   FIRST_PAGE = 0
-  IMAGE_TYPES_REQUIRING_CONVERSION = [
-    "image/tiff"
-  ].freeze
   RESIZE_WIDTH = 800
   RESIZE_HEIGHT = 800
 
@@ -32,9 +29,13 @@ class ImageResizeService
 
   def resize_image
     file = @file
-    file = copy_tiff(@file) if @mime_type == "image/tiff"
+    file = copy_tiff(@file) if requires_conversion?
     pipeline = ImageProcessing::MiniMagick.source(file)
-    pipeline = pipeline.convert("png").loader(page: FIRST_PAGE) if IMAGE_TYPES_REQUIRING_CONVERSION.include?(@mime_type)
+    pipeline = pipeline.convert("png").loader(page: FIRST_PAGE) if requires_conversion?
     pipeline.resize_to_limit!(RESIZE_WIDTH, RESIZE_HEIGHT)
+  end
+
+  def requires_conversion?
+    @_requires_conversion ||= (@mime_type == "image/tiff")
   end
 end
