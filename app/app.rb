@@ -24,8 +24,6 @@ end
 
 post '/image' do
 	mime_type = request.content_type
-	puts mime_type
-
 	image_file = request.body.read
 	
 	resized_image = ImageResizeService.call(image_file, mime_type)
