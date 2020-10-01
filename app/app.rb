@@ -9,7 +9,7 @@ get '/' do
 end
 
 get '/test/png' do
-	image_file = File.open('./test_images/test-png-1102x1287px.png')
+	image_file = File.open('./test_images/test-png.png')
 	resized_image = ImageResizeService.call(image_file, 'image/png')
 	status 200
 	body resized_image
