@@ -7,21 +7,7 @@ set :show_exceptions, :after_handler
 
 get '/' do
   status 200
-  body 'Hello world!'
-end
-
-get '/test/png' do
-	image_file = File.open('./test_images/test-png.png')
-	resized_image = ImageResizeService.call(image_file, 'image/png')
-	status 200
-	body resized_image
-end
-
-get '/test/tif' do
-	image_file = File.open('./test_images/test-bad-tif.tif')
-	resized_image = ImageResizeService.call(image_file, 'image/tiff')
-	status 200
-	body resized_image
+  body 'Image Resizer service is running'
 end
 
 post '/image' do
