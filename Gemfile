@@ -11,5 +11,6 @@ group :development do
   gem "capybara"
   gem "rack-test"
   gem "rspec"
+  gem "rubocop"
   gem "webmock"
 end
