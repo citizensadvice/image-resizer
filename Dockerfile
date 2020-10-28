@@ -14,8 +14,10 @@ RUN apk -U upgrade \
 
 RUN apk -U upgrade && apk add imagemagick tiff-tools
 
-COPY app /app
+COPY Gemfile* /app/
 RUN gem install bundler && bundle install
+
+COPY . /app/
 
 EXPOSE 4567
 
