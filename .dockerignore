@@ -1,0 +1,12 @@
+.git*
+.DS_Store
+Dockerfile
+docker*
+test_images*
+README.md
+coverage
+log
+performance
+reports
+spec/reports
+tmp
