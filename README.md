@@ -34,8 +34,18 @@ The docker build and run commands above are available as scripts in the `docker`
 
 Use `curl` to test sending requests to the host paths and download the returned images. Note that `.tif` format files are converted to `.png` files.
 
-Example command for sending a file to the service:
+Example command for sending a png file to the service:
 
 ```sh
-curl -X POST -F mime_type='image/png' -F image=@"./test_images/test-png.png" http://localhost/image --output test-image-resizer.png
+curl -X POST -F mime_type='image/png' -F image=@"./test_images/test-png.png" http://localhost/image --output test-png-image-resizer.png
 ```
+
+Sometimes we have to process images in bad formats so as well as resizing an image
+it may have to reformat it as another image type, such as `.tif` to `.png`.
+
+Here is a command for testing a badly formatted `.tif` image file that will return
+a resized version as a `.png` image file:
+
+```sh
+curl -X POST -F mime_type='image/tiff' -F image=@"./test_images/test-bad-tif.tif" http://localhost/image --output test-tif-image-resizer.png
+``` 
