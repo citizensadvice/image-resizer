@@ -31,7 +31,7 @@ class ImageResizeService
   end
 
   def requires_conversion?
-    @_requires_conversion ||= (@mime_type == "image/tiff")
+    @requires_conversion ||= (@mime_type == "image/tiff")
   end
 
   # https://www.imagemagick.org/discourse-server/viewtopic.php?t=33626
