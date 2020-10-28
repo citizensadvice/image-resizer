@@ -23,8 +23,8 @@ get '/test/tif' do
 end
 
 post '/image' do
-	mime_type = request.content_type
-	image_file = request.body.read
+	mime_type = params[:mime_type]
+	image_file = params[:image][:tempfile]
 	
 	resized_image = ImageResizeService.call(image_file, mime_type)
 	
