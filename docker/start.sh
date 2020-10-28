@@ -1,1 +1,1 @@
-docker run -p 80:4567 sinatra-app
+docker run -p 80:4567 image-resizer

@@ -1,1 +1,1 @@
-docker build -t sinatra-app . --no-cache
+docker build -t image-resizer . --no-cache
