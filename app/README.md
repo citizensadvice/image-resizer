@@ -28,4 +28,4 @@ Use `curl` to test sending requests to the host paths and download the returned 
 
 Example command for sending a file to the service:
 
-- `curl -X POST -H 'Content-Type: image/png' -d @"./app/test_images/test-png.png" http://localhost/image -o test.png`
+- `curl -X POST -F mime_type='image/png' -F image=@"./app/test_images/test-png.png" http://localhost/image -o test.png`
