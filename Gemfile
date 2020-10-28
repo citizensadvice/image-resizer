@@ -6,8 +6,10 @@ gem 'rake'
 gem 'sinatra'
 gem "image_processing"
 
-# group :development do
-#   gem "byebug"
-#   gem "rack-test"
-#   gem "rspec"
-# end
+group :development do
+  gem "byebug"
+  gem "capybara"
+  gem "rack-test"
+  gem "rspec"
+  gem "webmock"
+end
