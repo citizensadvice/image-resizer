@@ -21,4 +21,10 @@ COPY . /app/
 
 EXPOSE 4567
 
+# Add user
+RUN addgroup ruby -g 3000 \
+    && adduser -D -h /home/ruby -u 3000 -G ruby ruby \
+
+USER ruby
+
 CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "4567"]
