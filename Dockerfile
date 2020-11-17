@@ -15,6 +15,14 @@ RUN apk -U upgrade \
 RUN apk -U upgrade && apk add imagemagick tiff-tools
 
 COPY Gemfile* /app/
+COPY Gemfile* /app/
+RUN gem install bundler \
+	&& bundle config mirror.https://rubygems.org https://nexus.devops.citizensadvice.org.uk/repository/rubygems-proxy \
+    && bundle config mirror.https://rubygems.org.fallback_timeout 1 \
+    && bundle config set path "vendor/bundle" \
+    && bundle config set jobs 6 \
+    && bundle install --full-index
+
 RUN gem install bundler && bundle install
 
 COPY . /app/
