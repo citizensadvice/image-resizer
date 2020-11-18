@@ -2,26 +2,24 @@ FROM ruby:2.7.2-alpine AS build
 
 RUN apk --no-cache --update add build-base vips vips-dev imagemagick tiff-tools
 
-ADD Gemfile* /app/
-WORKDIR /app
-
 ENV LANG=C.UTF-8
 
-RUN gem update --system \
-    && gem install bundler \
-    && bundle install --without development \
-    && gem cleanup
-
-RUN adduser -D -u 3000 app && \
-    mkdir /app && \
-    chown app: /app
-
-COPY --chown=app:app --from=build /usr/local /usr/local
-COPY --chown=app:app ./ /app
-
 WORKDIR /app
 
-USER 3000
+COPY Gemfile* /app/
+
+RUN gem install bundler \
+    && bundle config set without 'development' \
+    && bundle install --full-index
+
+COPY . /app/
+
+RUN addgroup ruby -g 3000 \
+    && adduser -D -h /home/ruby -u 3000 -G ruby ruby \
+    && mkdir /app/tmp /app/log \
+    && chmod -R 777 /app/tmp /app/log
+
+USER ruby
 
 EXPOSE 4567
 
