@@ -1,39 +1,28 @@
-FROM ruby:2.7.2-alpine AS final
+FROM ruby:2.7.2-alpine AS build
 
-ENV SYSTEM="bash"
-ENV DEPENDENCIES \
-	build-base \
-	vips \
- 	vips-dev \
- 	imagemagick \
- 	tiff-tools
+RUN apk --no-cache --update add build-base vips vips-dev imagemagick tiff-tools
 
-RUN apk --no-cache add $SYSTEM $DEPENDENCIES
-RUN gem install bundler
+ADD Gemfile* /app/
+WORKDIR /app
 
 ENV LANG=C.UTF-8
 
-############################################################
+RUN gem update --system \
+    && gem install bundler \
+    && bundle install --without development \
+    && gem cleanup
 
-FROM final
+RUN adduser -D -u 3000 app && \
+    mkdir /app && \
+    chown app: /app
+
+COPY --chown=app:app --from=build /usr/local /usr/local
+COPY --chown=app:app ./ /app
 
 WORKDIR /app
 
-COPY Gemfile* /app/
-RUN bundle config mirror.https://rubygems.org https://nexus.devops.citizensadvice.org.uk/repository/rubygems-proxy \
-    && bundle config mirror.https://rubygems.org.fallback_timeout 1 \
-    && bundle config set path "vendor/bundle" \
-    && bundle config set jobs 6 \
-    && bundle install --full-index --without developmment
-
-COPY . /app/
+USER 3000
 
 EXPOSE 4567
-
-# Add user
-RUN addgroup ruby -g 3000 \
-    && adduser -D -h /home/ruby -u 3000 -G ruby ruby
-
-USER ruby
 
 CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "4567"]
