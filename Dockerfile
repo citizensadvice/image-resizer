@@ -1,29 +1,30 @@
-FROM ruby:2.7.2-alpine
+FROM ruby:2.7.2-alpine AS final
+
+ENV SYSTEM="bash"
+ENV DEPENDENCIES \
+	build-base \
+	vips \
+ 	vips-dev \
+ 	imagemagick \
+ 	tiff-tools
+
+RUN apk --no-cache add $SYSTEM $DEPENDENCIES
+RUN gem install bundler
+
+ENV LANG=C.UTF-8
+
+############################################################
+
+FROM final
 
 WORKDIR /app
 
-RUN apk -U upgrade \
- && apk add -t build-dependencies \
-    build-base \
- && rm -rf /tmp/* /var/cache/apk/*
-
-RUN apk -U upgrade \
- && apk add -t vips \
- && apk add -t vips-dev \
- && rm -rf /tmp/* /var/cache/apk/*
-
-RUN apk -U upgrade && apk add imagemagick tiff-tools
-
 COPY Gemfile* /app/
-COPY Gemfile* /app/
-RUN gem install bundler \
-	&& bundle config mirror.https://rubygems.org https://nexus.devops.citizensadvice.org.uk/repository/rubygems-proxy \
+RUN bundle config mirror.https://rubygems.org https://nexus.devops.citizensadvice.org.uk/repository/rubygems-proxy \
     && bundle config mirror.https://rubygems.org.fallback_timeout 1 \
     && bundle config set path "vendor/bundle" \
     && bundle config set jobs 6 \
     && bundle install --full-index
-
-RUN gem install bundler && bundle install
 
 COPY . /app/
 
