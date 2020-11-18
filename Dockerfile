@@ -24,7 +24,7 @@ RUN bundle config mirror.https://rubygems.org https://nexus.devops.citizensadvic
     && bundle config mirror.https://rubygems.org.fallback_timeout 1 \
     && bundle config set path "vendor/bundle" \
     && bundle config set jobs 6 \
-    && bundle install --full-index
+    && bundle install --full-index --without developmment
 
 COPY . /app/
 
