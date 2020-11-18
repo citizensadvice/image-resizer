@@ -1,25 +1,23 @@
-FROM ruby:2.7.2-alpine AS build
-
-RUN apk --no-cache --update add build-base vips vips-dev imagemagick tiff-tools
-
-ENV LANG=C.UTF-8
+FROM ruby:2.7.2-alpine
 
 WORKDIR /app
 
-COPY Gemfile* /app/
+RUN apk -U upgrade \	
+ && apk add -t build-dependencies \	
+    build-base \	
+ && rm -rf /tmp/* /var/cache/apk/*	
 
-RUN gem install bundler \
-    && bundle config set without 'development' \
-    && bundle install --full-index
+RUN apk -U upgrade \
+ && apk add -t vips \	
+ && apk add -t vips-dev \	
+ && rm -rf /tmp/* /var/cache/apk/*	
+
+RUN apk -U upgrade && apk add imagemagick tiff-tools
+
+COPY Gemfile* /app/
+RUN gem install bundler && bundle install
 
 COPY . /app/
-
-RUN addgroup ruby -g 3000 \
-    && adduser -D -h /home/ruby -u 3000 -G ruby ruby \
-    && mkdir /app/tmp /app/log \
-    && chmod -R 777 /app/tmp /app/log
-
-USER ruby
 
 EXPOSE 4567
 
