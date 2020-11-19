@@ -1,1 +1,1 @@
-docker build -t image-resizer . --no-cache
+docker build -t image-resizer .
