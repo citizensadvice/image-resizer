@@ -1,20 +1,22 @@
 FROM ruby:2.7.2-alpine
+ENV LANG C.UTF-8
 
 WORKDIR /app
 
-RUN apk -U upgrade \
- && apk add -t build-dependencies \
+RUN \
+  apk update && apk upgrade && \
+  apk --no-cache add \
     build-base \
- && rm -rf /tmp/* /var/cache/apk/*
-RUN apk -U upgrade \
- && apk add -t vips \
- && apk add -t vips-dev \
- && rm -rf /tmp/* /var/cache/apk/*
-
-RUN apk -U upgrade && apk add imagemagick tiff-tools
+	vips \
+	vips-dev \
+	imagemagick \
+	tiff-tools
 
 COPY Gemfile* /app/
-RUN gem install bundler && bundle install
+
+RUN gem update --system && \
+    gem install bundler && \
+    bundle install
 
 COPY . /app/
 
