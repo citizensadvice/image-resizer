@@ -18,6 +18,9 @@ RUN gem install bundler && bundle install
 
 COPY . /app/
 
-EXPOSE 4567
+RUN addgroup ruby -g 3000 \
+    && adduser -D -h /home/ruby -u 3000 -G ruby ruby
+USER ruby
 
+EXPOSE 4567
 CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "4567"]
