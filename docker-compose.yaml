@@ -1,0 +1,15 @@
+
+version: "3"
+
+services:
+  app:
+    build: .
+    image: "citizensadvice/image-resizer"
+    ports:
+      - 4567:4567
+    volumes:
+      - .:/app
+      - ./spec/fixtures/image:/app/image
+    environment:
+      - URL_HOST=app.test:4567
+      - MOKTA_ISSUER=https://cadev.oktapreview.com
