@@ -5,18 +5,20 @@
 # http://sinatrarb.com/testing.html
 # get '/path', params={}, rack_env={}
 
-describe "liveness check" do
+describe "image resizer app" do
   include Rack::Test::Methods
 
   def app
     Sinatra::Application
   end
 
-  it "should get /" do
-    get "/" do
-      get "/"
-      expect(last_response).to be_ok
-      expect(last_response.body).to eq "Image Resizer service is running"
+  describe "liveness check" do
+    it "should get /" do
+      get "/" do
+        get "/"
+        expect(last_response).to be_ok
+        expect(last_response.body).to eq "Image Resizer service is running"
+      end
     end
   end
 end
