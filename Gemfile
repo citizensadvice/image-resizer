@@ -9,9 +9,9 @@ gem "image_processing"
 gem "rake"
 gem "sinatra"
 
-group :development do
+group :development, :test do
   gem "citizens-advice-style", github: "citizensadvice/citizens-advice-style-ruby", tag: "v0.4.0"
-  gem 'rack-test'
+  gem "rack-test"
   gem "rspec"
   gem "rubocop"
 end
