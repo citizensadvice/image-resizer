@@ -1,1 +1,1 @@
-docker build -t image-resizer .
+docker build -t citizensadvice/image-resizer .
