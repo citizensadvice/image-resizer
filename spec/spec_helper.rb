@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require "byebug"
-require "capybara/rspec"
-require "sinatra"
-require_relative "../app"
+ENV["APP_ENV"] = "test"
 
-Capybara.app = Sinatra::Application
-Capybara.app_host = "http://image-resizer.test"
+require "rack/test"
+require_relative "../app"
