@@ -9,7 +9,7 @@ services:
       - 4567:4567
     volumes:
       - .:/app
-      - ./spec/fixtures/image:/app/image
+      - ./spec/fixtures/image_files:/app/image_files
     environment:
       - URL_HOST=app.test:4567
       - MOKTA_ISSUER=https://cadev.oktapreview.com
