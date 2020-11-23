@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-# For reference:
-# https://github.com/citizensadvice/mokta/blob/master/spec/features/app_spec.rb
-# http://sinatrarb.com/testing.html
-# get '/path', params={}, rack_env={}
-
 describe "image resizer app" do
   include Rack::Test::Methods
 
@@ -12,12 +7,24 @@ describe "image resizer app" do
     Sinatra::Application
   end
 
-  describe "liveness check" do
-    it "should get /" do
+  describe "get /" do
+    it "returns a message that confirms the service is running" do
       get "/" do
         get "/"
         expect(last_response).to be_ok
         expect(last_response.body).to eq "Image Resizer service is running"
+      end
+    end
+  end
+
+  describe "post /image" do
+    context "with image file .png" do
+      let!(:image) { File.open("spec/fixtures/image/test-png.png") }
+      let!(:mime_type) { "image/png" }
+
+      xit "returns a resized image" do
+        post "/image", image: image, mime_type: mime_type
+        expect(last_response.status).to be_ok
       end
     end
   end

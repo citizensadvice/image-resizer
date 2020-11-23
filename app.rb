@@ -11,6 +11,8 @@ get "/" do
 end
 
 post "/image" do
+  return ArgumentError.new("expected params to include :mime_type, :image") unless params.keys.include?(:mime_type, :image)
+
   mime_type = params[:mime_type]
   image_file = params[:image][:tempfile]
 
