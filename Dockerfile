@@ -3,19 +3,19 @@ ENV LANG C.UTF-8
 
 WORKDIR /app
 
-RUN \
-  apk update && apk upgrade && \
+RUN apk update && \
+  apk upgrade && \
   apk --no-cache add \
     build-base \
-	vips \
-	vips-dev \
-	imagemagick \
-	tiff-tools
+    git \
+    vips \
+    vips-dev \
+    imagemagick \
+    tiff-tools
 
 COPY Gemfile* /app/
 
-RUN gem update --system && \
-    gem install bundler && \
+RUN gem install bundler && \
     bundle install
 
 COPY . /app/
