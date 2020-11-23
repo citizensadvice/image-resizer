@@ -10,8 +10,11 @@ gem "rake"
 gem "sinatra"
 
 group :development, :test do
+  gem "byebug"
+  gem "capybara"
   gem "citizens-advice-style", github: "citizensadvice/citizens-advice-style-ruby", tag: "v0.4.0"
   gem "rack-test"
   gem "rspec"
   gem "rubocop"
+  gem "webmock"
 end
