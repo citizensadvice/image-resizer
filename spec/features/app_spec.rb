@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-describe "image resizer app" do
-  describe "get /" do
+describe "image resizer app", type: :feature do
+  describe "base url liveness check" do
     it "returns a message that confirms the service is running" do
-      get "/" do
-        get "/"
-        expect(last_response).to be_ok
-        expect(last_response.body).to eq "Image Resizer service is running"
-      end
+      visit "/"
+      expect(page.status_code).to eq 200
+      expect(page.body).to eq "Image Resizer service is running"
     end
   end
 
