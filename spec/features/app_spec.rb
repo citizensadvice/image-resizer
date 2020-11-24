@@ -27,10 +27,10 @@ describe "image resizer app", type: :feature do
       end
 
       xit "resizes large images down to dimensions with a maximum of 800px" do
-        # response = post "/image", image_file: image_file, mime_type: mime_type
-        # https://github.com/janko/image_processing/blob/master/doc/minimagick.md 
-        # resized_image = MiniMagick::Image.new(response.body)
-        # expect(resized_image.dimensions).to eq [800, 800]
+        response = post "/image", image_file: image_file, mime_type: mime_type
+        # https://github.com/janko/image_processing/blob/master/doc/minimagick.md
+        resized_image = MiniMagick::Image.new(Tempfile.new(response.body))
+        expect(resized_image.dimensions).to eq [800, 800]
       end
     end
   end
