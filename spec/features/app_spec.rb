@@ -22,21 +22,27 @@ describe "image resizer app", type: :feature do
     end
 
     context "with image file .png" do
-      let(:image_file) { Rack::Test::UploadedFile.new("spec/fixtures/image_files/test-png-1102x1287px.png", "image/png") }
+      let(:test_images_root_path) { "spec/fixtures/image_files/" }
+      let(:test_image_file_name) { "test-png-large-1102x1287px.png" }
       let(:mime_type) { "image/png" }
+      let(:image_file) { Rack::Test::UploadedFile.new(test_images_root_path + test_image_file_name, mime_type) }
       let(:temp_image_file_path) { Tempfile.new.path  }
 
-      it "returns status code 200" do
-        response = post "/image", image_file: image_file, mime_type: mime_type
-        expect(response.status).to eq 200
-      end
+      context "with an image that has larger dimensions than 800px" do
+        let(:test_image_file_name) { "test-png-large-1102x1287px.png" }
+        
+        it "returns status code 200" do
+          response = post "/image", image_file: image_file, mime_type: mime_type
+          expect(response.status).to eq 200
+        end
 
-      it "resizes large images down to dimensions with a maximum of 800px" do
-        response = post "/image", image_file: image_file, mime_type: mime_type
-        File.open(temp_image_file_path,'w') { |f| f.write response.body }
-        resized_image = MiniMagick::Image.new(temp_image_file_path)
+        it "returns the resize image with maximum dimensions of 800px" do
+          response = post "/image", image_file: image_file, mime_type: mime_type
+          File.open(temp_image_file_path,'w') { |f| f.write response.body }
+          resized_image = MiniMagick::Image.new(temp_image_file_path)
 
-        expect(resized_image.dimensions).to eq [685, 800]
+          expect(resized_image.dimensions).to eq [685, 800]
+        end
       end
     end
   end
