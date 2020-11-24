@@ -23,14 +23,14 @@ describe "image resizer app", type: :feature do
 
     context "with image file .png" do
       let(:test_images_root_path) { "spec/fixtures/image_files/" }
-      let(:test_image_file_name) { "test-png-large-1102x1287px.png" }
+      let(:test_image_file_name) { "" }
       let(:mime_type) { "image/png" }
       let(:image_file) { Rack::Test::UploadedFile.new(test_images_root_path + test_image_file_name, mime_type) }
       let(:temp_image_file_path) { Tempfile.new.path  }
 
       context "with an image that has larger dimensions than 800px" do
         let(:test_image_file_name) { "test-png-large-1102x1287px.png" }
-        
+
         it "returns status code 200" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           expect(response.status).to eq 200
