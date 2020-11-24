@@ -28,6 +28,25 @@ describe "image resizer app", type: :feature do
       let(:image_file) { Rack::Test::UploadedFile.new(test_images_root_path + test_image_file_name, mime_type) }
       let(:temp_image_file_path) { Tempfile.new.path }
 
+      context "with a .png image that has smaller dimensions than 800px" do
+        let(:test_image_file_name) { "test-png-small-314x580px.png" }
+        let(:mime_type) { "image/png" }
+
+        it "returns status code 200" do
+          response = post "/image", image_file: image_file, mime_type: mime_type
+          expect(response.status).to eq 200
+        end
+
+        it "returns the PNG image at its original size" do
+          response = post "/image", image_file: image_file, mime_type: mime_type
+          File.open(temp_image_file_path, "w") { |f| f.write response.body }
+          resized_image = MiniMagick::Image.new(temp_image_file_path)
+
+          expect(resized_image.type).to eq "PNG"
+          expect(resized_image.dimensions).to eq [314, 580]
+        end
+      end
+
       context "with a .png image that has larger dimensions than 800px" do
         let(:test_image_file_name) { "test-png-1102x1287px.png" }
         let(:mime_type) { "image/png" }
@@ -94,7 +113,7 @@ describe "image resizer app", type: :feature do
           expect(response.status).to eq 200
         end
 
-        it "returns the .tif image converted to .png and resized to maximum dimensions of 800px" do
+        it "returns the image as a PNG resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           File.open(temp_image_file_path, "w") { |f| f.write response.body }
           resized_image = MiniMagick::Image.new(temp_image_file_path)
