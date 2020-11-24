@@ -47,6 +47,25 @@ describe "image resizer app", type: :feature do
         end
       end
 
+      context "with a .jpg image that has larger dimensions than 800px" do
+        let(:test_image_file_name) { "test-jpg-1102x1287px.jpg" }
+        let(:mime_type) { "image/jpeg" }
+
+        it "returns status code 200" do
+          response = post "/image", image_file: image_file, mime_type: mime_type
+          expect(response.status).to eq 200
+        end
+
+        it "returns the .png image resized to maximum dimensions of 800px" do
+          response = post "/image", image_file: image_file, mime_type: mime_type
+          File.open(temp_image_file_path,'w') { |f| f.write response.body }
+          resized_image = MiniMagick::Image.new(temp_image_file_path)
+
+          expect(resized_image.type).to eq "JPEG"
+          expect(resized_image.dimensions).to eq [685, 800]
+        end
+      end
+
       context "with a .tif image that has larger dimensions than 800px" do
         let(:test_image_file_name) { "test-bad-tif-800x1000px.tif" }
         let(:mime_type) { "image/tiff" }
