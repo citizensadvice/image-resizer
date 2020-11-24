@@ -26,7 +26,7 @@ describe "image resizer app", type: :feature do
       let(:test_image_file_name) { "" }
       let(:mime_type) { "" }
       let(:image_file) { Rack::Test::UploadedFile.new(test_images_root_path + test_image_file_name, mime_type) }
-      let(:temp_image_file_path) { Tempfile.new.path  }
+      let(:temp_image_file_path) { Tempfile.new.path }
 
       context "with a .png image that has larger dimensions than 800px" do
         let(:test_image_file_name) { "test-png-1102x1287px.png" }
@@ -39,7 +39,7 @@ describe "image resizer app", type: :feature do
 
         it "returns the PNG image resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
-          File.open(temp_image_file_path,'w') { |f| f.write response.body }
+          File.open(temp_image_file_path, "w") { |f| f.write response.body }
           resized_image = MiniMagick::Image.new(temp_image_file_path)
 
           expect(resized_image.type).to eq "PNG"
@@ -58,7 +58,7 @@ describe "image resizer app", type: :feature do
 
         it "returns the JPEG image resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
-          File.open(temp_image_file_path,'w') { |f| f.write response.body }
+          File.open(temp_image_file_path, "w") { |f| f.write response.body }
           resized_image = MiniMagick::Image.new(temp_image_file_path)
 
           expect(resized_image.type).to eq "JPEG"
@@ -77,14 +77,13 @@ describe "image resizer app", type: :feature do
 
         it "returns the GIF image resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
-          File.open(temp_image_file_path,'w') { |f| f.write response.body }
+          File.open(temp_image_file_path, "w") { |f| f.write response.body }
           resized_image = MiniMagick::Image.new(temp_image_file_path)
 
           expect(resized_image.type).to eq "GIF"
           expect(resized_image.dimensions).to eq [685, 800]
         end
       end
-
 
       context "with a .tif image that has larger dimensions than 800px" do
         let(:test_image_file_name) { "test-bad-tif-800x1000px.tif" }
@@ -97,7 +96,7 @@ describe "image resizer app", type: :feature do
 
         it "returns the .tif image converted to .png and resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
-          File.open(temp_image_file_path,'w') { |f| f.write response.body }
+          File.open(temp_image_file_path, "w") { |f| f.write response.body }
           resized_image = MiniMagick::Image.new(temp_image_file_path)
 
           expect(resized_image.type).to eq "PNG"
