@@ -26,7 +26,10 @@ describe "image resizer app", type: :feature do
         expect(response.status).to eq 200
       end
 
-      it "" do
+      xit "resizes large images down to dimensions with a maximum of 800px" do
+        # response = post "/image", image_file: image_file, mime_type: mime_type
+        # resized_image = MiniMagick::Image.new(response.body)
+        # expect(resized_image.dimensions).to eq [800, 800]
       end
     end
   end
