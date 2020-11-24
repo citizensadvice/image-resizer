@@ -37,7 +37,7 @@ describe "image resizer app", type: :feature do
           expect(response.status).to eq 200
         end
 
-        it "returns the .png image resized to maximum dimensions of 800px" do
+        it "returns the PNG image resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           File.open(temp_image_file_path,'w') { |f| f.write response.body }
           resized_image = MiniMagick::Image.new(temp_image_file_path)
@@ -56,7 +56,7 @@ describe "image resizer app", type: :feature do
           expect(response.status).to eq 200
         end
 
-        it "returns the .png image resized to maximum dimensions of 800px" do
+        it "returns the JPEG image resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           File.open(temp_image_file_path,'w') { |f| f.write response.body }
           resized_image = MiniMagick::Image.new(temp_image_file_path)
@@ -75,7 +75,7 @@ describe "image resizer app", type: :feature do
           expect(response.status).to eq 200
         end
 
-        it "returns the .png image resized to maximum dimensions of 800px" do
+        it "returns the GIF image resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           File.open(temp_image_file_path,'w') { |f| f.write response.body }
           resized_image = MiniMagick::Image.new(temp_image_file_path)
