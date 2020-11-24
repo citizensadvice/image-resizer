@@ -2,57 +2,73 @@
 
 A Ruby app to resize images built with the Sinatra web framework and ImageMagick library.
 
-## Setup and run
+## Setup
 
-You will need to install the dependencies for the ruby image processing gem. Here is the homebrew command for installing `imagemagick` on a mac:
+You will need to install the dependencies for the Ruby `image_processing` gem. Here is the homebrew command for installing `imagemagick` on a mac.
 
 ```sh
 brew install imagemagick
 ```
 
-Then you can install the ruby gems and start the app locally.
+Then you can install the Ruby gems and start the app locally.
 
 ```sh
 bundle install
+```
+
+## Run the app
+
+If you are running the app locally outside of Docker then you can run it using:
+
+```rb
 rackup
 ```
+
+There are some Docker build, run, and test scripts in the `docker` folder. These are designed for development and testing purposes only.
+
+- `docker/build.sh`
+- `docker/start.sh`
+- `docker/test.sh` (runs the Ruby tests)
 
 The url is `http:localhost:4567`
 
 Visiting this in a web browser displays a liveness message to confirm the service is running.
 
+
+## Resizing images
+
 The endpoint for resizing images is `/image` and it requires the params posted as multi-part form data.
 
-- `mime_type` for example "image/png"
-- `image_file` for example an image in the format `.png`
+- `mime_type` for example `image/png`
+- `image_file` for example an image in the format `.png, .jpg, .gif, and .tif`
 
+Image files in the format `TIFF` are converted to `PNG` automatically.
 
-## Docker container
-
-The `Dockerfile` creates the app's image based on Ruby Alpine. There are a few dependencies for the `image_processing` gem that are added to that and then the ruby gems and app code.
-
-There are some docker build, run, and test scripts in the `docker` folder. These are designed for development and testing purposes only.
-
-- `docker/build.sh`
-- `docker/start.sh`
-- `docker/test.sh` (runs the ruby tests)
+The returned images are only resized if they have dimensions larger than `800px`, in which case they are resized maintaining their aspect ratio so their dimensions are a maximum of `900px`.
 
 
 ## Testing
 
-Use `curl` to test sending requests to the host paths and download the returned images. Note that `.tif` format files are converted to `.png` files.
+The automated tests are in the `spec` folder and there are test image files in the `spec/fixtures/image_files` folder. To run the Ruby tests use the command:
 
-Example command for sending a png file to the service:
-
-```sh
-curl -X POST -F mime_type='image/png' -F image_file=@"./spec/fixtures/image_files/test-png-1102x1287px.png" http://localhost:4567/image --output test-png-image-resizer.png
+```rb
+bundle exec rspec
 ```
 
-Sometimes we have to process images in bad formats so as well as resizing an image
-it may have to reformat it as another image type, such as `.tif` to `.png`.
+They can also be run inside a Docker container using the scripts in the `docker` folder.
 
-Here is a command for testing a badly formatted `.tif` image file that will return
-a resized version as a `.png` image file:
+```sh
+docker/build.sh
+docker/test.sh
+```
+
+To manually test the image resizer app, you can run the app locally and then use `curl` via the command line. Here are some example commands that send image files to the app and then save the resized image that is returned.
+
+```sh
+curl -X POST -F mime_type='image/png' -F image_file=@"./spec/fixtures/image_files/test-png-1102x1287px.png" http://localhost:4567/image --output test-png-image-resized.png
+```
+
+For images in the `TIFF` format they are automatically converted to `PNG`, so here is an example for this scenario.
 
 ```sh
 curl -X POST -F mime_type='image/tiff' -F image_file=@"./spec/fixtures/image_files/test-bad-tif-800x1000px.tif" http://localhost:4567/image --output test-tif-image-resizer.png
