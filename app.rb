@@ -11,8 +11,6 @@ get "/" do
 end
 
 post "/image" do
-  # begin
-
   error_message = validate_params(params)
   if error_message
     status 400
@@ -26,12 +24,6 @@ post "/image" do
 
   status 200
   body resized_image
-
-  # rescue => e
-  # 	puts e.class
-  # 	puts e
-  # 	puts e.backtrace
-  # end
 end
 
 private
