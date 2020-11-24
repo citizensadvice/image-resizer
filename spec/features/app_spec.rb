@@ -18,12 +18,15 @@ describe "image resizer app", type: :feature do
     end
 
     context "with image file .png" do
-      let(:image_file) { Rack::Test::UploadedFile.new("spec/fixtures/image_files/test-png.png", "image/png") }
+      let(:image_file) { Rack::Test::UploadedFile.new("spec/fixtures/image_files/test-png-1102x1287px.png", "image/png") }
       let(:mime_type) { "image/png" }
 
       it "returns status code 200" do
         response = post "/image", image_file: image_file, mime_type: mime_type
         expect(response.status).to eq 200
+      end
+
+      it "" do
       end
     end
   end
