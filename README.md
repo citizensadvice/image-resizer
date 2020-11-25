@@ -1,51 +1,75 @@
 # Image Resizer
 
-A Ruby app to resize images built with the Sinatra web framework and ImageMagic library.
+A Ruby app to resize images built with the Sinatra web framework and ImageMagick library.
 
-## Setup and run
+## Setup
+
+You will need to install the dependencies for the Ruby `image_processing` gem. Here is the homebrew command for installing `imagemagick` on a mac.
+
+```sh
+brew install imagemagick
+```
+
+Then you can install the Ruby gems and start the app locally.
 
 ```sh
 bundle install
+```
+
+## Run the app
+
+If you are running the app locally outside of Docker then you can run it using:
+
+```rb
 rackup
-open http:localhost:9292
 ```
 
-## Docker container
+There are some Docker build, run, and test scripts in the `docker` folder. These are designed for development and testing purposes only.
 
-The `Dockerfile` creates the app's image based on Ruby Alpine. There are a few dependencies for the `image_processing` gem that are added to that and then the ruby gems and app code.
+- `docker/build.sh`
+- `docker/start.sh`
+- `docker/test.sh` (runs the Ruby tests)
 
-Here are the some commands for development and testing purposes based on the guide found [here](https://www.codewithjason.com/dockerize-sinatra-application/).
+The url is `http:localhost:4567`
 
-```sh
-docker build -t image-resizer . --no-cache
-docker run -p 80:4567 image-resizer
-```
-
-If you want to use an internet browser to test the app is running you can visit the url `http://localhost`
+Visiting this in a web browser displays a liveness message to confirm the service is running.
 
 
-The docker build and run commands above are available as scripts in the `docker` folder. These are designed for development and testing purposes only.
+## Resizing images
 
-- `./docker/build.sh`
-- `./docker/start.sh`
+The endpoint for resizing images is `/image` and it requires the params posted as multi-part form data.
+
+- `mime_type` for example `image/png`
+- `image_file` for example an image in the format `.png, .jpg, .gif, and .tif`
+
+Image files in the format `TIFF` are converted to `PNG` automatically.
+
+The returned images are only resized if they have dimensions larger than `800px`, in which case they are resized maintaining their aspect ratio so their dimensions are a maximum of `900px`.
 
 
 ## Testing
 
-Use `curl` to test sending requests to the host paths and download the returned images. Note that `.tif` format files are converted to `.png` files.
+The automated tests are in the `spec` folder and there are test image files in the `spec/fixtures/image_files` folder. To run the Ruby tests use the command:
 
-Example command for sending a png file to the service:
-
-```sh
-curl -X POST -F mime_type='image/png' -F image=@"./test_images/test-png.png" http://localhost/image --output test-png-image-resizer.png
+```rb
+bundle exec rspec
 ```
 
-Sometimes we have to process images in bad formats so as well as resizing an image
-it may have to reformat it as another image type, such as `.tif` to `.png`.
-
-Here is a command for testing a badly formatted `.tif` image file that will return
-a resized version as a `.png` image file:
+They can also be run inside a Docker container using the scripts in the `docker` folder.
 
 ```sh
-curl -X POST -F mime_type='image/tiff' -F image=@"./test_images/test-bad-tif.tif" http://localhost/image --output test-tif-image-resizer.png
+docker/build.sh
+docker/test.sh
+```
+
+To manually test the image resizer app, you can run the app locally and then use `curl` via the command line. Here are some example commands that send image files to the app and then save the resized image that is returned.
+
+```sh
+curl -X POST -F mime_type='image/png' -F image_file=@"./spec/fixtures/image_files/test-png-1102x1287px.png" http://localhost:4567/image --output test-png-image-resized.png
+```
+
+For images in the `TIFF` format they are automatically converted to `PNG`, so here is an example for this scenario.
+
+```sh
+curl -X POST -F mime_type='image/tiff' -F image_file=@"./spec/fixtures/image_files/test-bad-tif-800x1000px.tif" http://localhost:4567/image --output test-tif-image-resizer.png
 ``` 

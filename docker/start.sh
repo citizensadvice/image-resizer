@@ -1,1 +1,1 @@
-docker run -p 80:4567 image-resizer
+docker run -p 4567:4567 --rm citizensadvice/image-resizer

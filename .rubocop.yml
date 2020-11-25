@@ -1,11 +1,11 @@
 AllCops:
   TargetRubyVersion: 2.7.2
+  NewCops: enable
 
-Documentation:
-  Enabled: false
+inherit_gem:
+  citizens-advice-style:
+    - default.yml
 
-Metrics/LineLength:
-  Max: 90
-
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
+inherit_mode:
+  merge:
+    - Exclude

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# This uses the image_processing gem, which can use vips or imagemagick to process images
+# https://github.com/janko/image_processing
+
 require "image_processing/mini_magick"
 
 class ImageResizeService

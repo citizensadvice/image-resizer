@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
-require "byebug"
-require "capybara/rspec"
+require "image_processing/mini_magick"
+require "rack/test"
 require "sinatra"
 require_relative "../app"
 
-Capybara.app = Sinatra::Application
-Capybara.app_host = "http://image-resizer.test"
+def app
+  Sinatra::Application
+end
+
+RSpec.configure do |config|
+  config.include Rack::Test::Methods
+end
