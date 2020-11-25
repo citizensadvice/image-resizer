@@ -75,7 +75,6 @@ DEPENDENCIES
   rack-test
   rake
   rspec
-  rubocop
   sinatra
 
 RUBY VERSION
