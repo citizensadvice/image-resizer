@@ -10,7 +10,6 @@ RUN apk update && \
     git \
     vips \
     vips-dev \
-    imagemagick \
     tiff-tools
 
 COPY Gemfile* /app/
