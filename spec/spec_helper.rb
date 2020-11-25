@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "image_processing/mini_magick"
 require "rack/test"
 require "sinatra"
 require_relative "../app"

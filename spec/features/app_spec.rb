@@ -37,12 +37,13 @@ describe "image resizer app", type: :feature do
           expect(response.status).to eq 200
         end
 
-        it "returns the image at its original size" do
+        it "returns the PNG image at its original size" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           File.open(temp_image_file_path, "w") { |f| f.write response.body }
-          resized_image = Vips::Image.new_from_file(temp_image_file_path)
+          resized_image = MiniMagick::Image.new(temp_image_file_path)           
 
-          expect(resized_image.size).to eq [314, 580]
+          expect(resized_image.type).to eq "PNG"            # expect(resized_image.type).to eq "PNG"
+          expect(resized_image.dimensions).to eq [314, 580]
         end
       end
 
@@ -55,12 +56,13 @@ describe "image resizer app", type: :feature do
           expect(response.status).to eq 200
         end
 
-        it "returns the image resized to maximum dimensions of 800px" do
+        it "returns the PNG image resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           File.open(temp_image_file_path, "w") { |f| f.write response.body }
-          resized_image = Vips::Image.new_from_file(temp_image_file_path)
+          resized_image = MiniMagick::Image.new(temp_image_file_path)           
 
-          expect(resized_image.size).to eq [685, 800]
+          expect(resized_image.type).to eq "PNG"            # expect(resized_image.type).to eq "PNG"
+          expect(resized_image.dimensions).to eq [685, 800]
         end
       end
 
@@ -73,12 +75,13 @@ describe "image resizer app", type: :feature do
           expect(response.status).to eq 200
         end
 
-        it "returns the image resized to maximum dimensions of 800px" do
+        it "returns the JPEG image resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           File.open(temp_image_file_path, "w") { |f| f.write response.body }
-          resized_image = Vips::Image.new_from_file(temp_image_file_path)
+          resized_image = MiniMagick::Image.new(temp_image_file_path)           
 
-          expect(resized_image.size).to eq [685, 800]
+          expect(resized_image.type).to eq "JPEG"            # expect(resized_image.type).to eq "PNG"
+          expect(resized_image.dimensions).to eq [685, 800]
         end
       end
 
@@ -91,12 +94,13 @@ describe "image resizer app", type: :feature do
           expect(response.status).to eq 200
         end
 
-        it "returns the image resized to maximum dimensions of 800px" do
+        it "returns the GIF image resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           File.open(temp_image_file_path, "w") { |f| f.write response.body }
-          resized_image = Vips::Image.new_from_file(temp_image_file_path)
+          resized_image = MiniMagick::Image.new(temp_image_file_path)           
 
-          expect(resized_image.size).to eq [685, 800]
+          expect(resized_image.type).to eq "GIF"            # expect(resized_image.type).to eq "PNG"
+          expect(resized_image.dimensions).to eq [685, 800]
         end
       end
 
@@ -109,12 +113,13 @@ describe "image resizer app", type: :feature do
           expect(response.status).to eq 200
         end
 
-        it "returns the image resized to maximum dimensions of 800px" do
+        it "returns the image converted to PNG and resized to maximum dimensions of 800px" do
           response = post "/image", image_file: image_file, mime_type: mime_type
           File.open(temp_image_file_path, "w") { |f| f.write response.body }
-          resized_image = Vips::Image.new_from_file(temp_image_file_path)
+          resized_image = MiniMagick::Image.new(temp_image_file_path)           
 
-          expect(resized_image.size).to eq [640, 800]
+          expect(resized_image.type).to eq "PNG"            # expect(resized_image.type).to eq "PNG"
+          expect(resized_image.dimensions).to eq [640, 800]
         end
       end
     end
