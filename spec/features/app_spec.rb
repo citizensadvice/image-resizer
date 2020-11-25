@@ -6,10 +6,14 @@
 
 describe "image resizer app", type: :feature do
   describe "base url liveness check" do
+    it "returns status code 200" do
+      response = get "/"
+      expect(response.status).to eq 200
+    end
+
     it "returns a message that confirms the service is running" do
-      visit "/"
-      expect(page.status_code).to eq 200
-      expect(page.body).to eq "Image Resizer service is running"
+      response = get "/"
+      expect(response.body).to eq "Image Resizer service is running"
     end
   end
 
