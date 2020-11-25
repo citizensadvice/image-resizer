@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-require "image_processing/mini_magick"
+# This uses the image_processing gem, which can use vips or imagemagick to process images
+# https://github.com/janko/image_processing
+
+require "image_processing/vips"
 
 class ImageResizeService
   FIRST_PAGE = 0
@@ -25,7 +28,7 @@ class ImageResizeService
   def resize_image
     file = @file
     file = copy_tiff(@file) if requires_conversion?
-    pipeline = ImageProcessing::MiniMagick.source(file)
+    pipeline = ImageProcessing::Vips.source(file)
     pipeline = pipeline.convert("png").loader(page: FIRST_PAGE) if requires_conversion?
     pipeline.resize_to_limit!(RESIZE_WIDTH, RESIZE_HEIGHT)
   end
