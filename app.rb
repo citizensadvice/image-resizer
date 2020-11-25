@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "lib/image_resizer"
+require_relative "lib/image_resize_service"
 require "sinatra"
 
 set :show_exceptions, :after_handler
