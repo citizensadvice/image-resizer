@@ -3,7 +3,7 @@
 # This uses the image_processing gem, which can use vips or imagemagick to process images
 # https://github.com/janko/image_processing
 
-require "image_processing/vips"
+require "image_processing/mini_magick"
 
 class ImageResizeService
   FIRST_PAGE = 0
@@ -28,7 +28,7 @@ class ImageResizeService
   def resize_image
     file = @file
     file = copy_tiff(@file) if requires_conversion?
-    pipeline = ImageProcessing::Vips.source(file)
+    pipeline = ImageProcessing::MiniMagick.source(file)
     pipeline = pipeline.convert("png").loader(page: FIRST_PAGE) if requires_conversion?
     pipeline.resize_to_limit!(RESIZE_WIDTH, RESIZE_HEIGHT)
   end
