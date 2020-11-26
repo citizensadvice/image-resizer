@@ -2,4 +2,4 @@
 
 require "./app"
 
-Sinatra::Application.run!
+run Sinatra::Application

@@ -1,5 +1,4 @@
 FROM ruby:2.7.2-alpine
-ENV LANG C.UTF-8
 
 WORKDIR /app
 
@@ -8,8 +7,6 @@ RUN apk update && \
   apk --no-cache add \
     build-base \
     git \
-    vips \
-    vips-dev \
     imagemagick \
     tiff-tools
 
