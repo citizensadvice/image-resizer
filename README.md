@@ -64,9 +64,25 @@ docker/test.sh
 
 To manually test the image resizer app, you can run the app locally and then use `curl` via the command line. Here are some example commands that send image files to the app and then save the resized image that is returned.
 
+### `PNG`
+
 ```sh
 curl -X POST -F mime_type='image/png' -F image_file=@"./spec/fixtures/image_files/test-png-1102x1287px.png" http://localhost:4567/image --output test-png-image-resized.png
 ```
+
+### `GIF`
+
+```sh
+curl -X POST -F mime_type='image/gif' -F image_file=@"./spec/fixtures/image_files/test-gif-1102x1287px.gif" http://localhost:4567/image --output test-gif-image-resized.gif
+```
+
+### `JPEG`
+
+```sh
+curl -X POST -F mime_type='image/jpeg' -F image_file=@"./spec/fixtures/image_files/test-jpg-1102x1287px.jpg" http://localhost:4567/image --output test-jpg-image-resized.jpg
+```
+
+### `TIFF`
 
 For images in the `TIFF` format they are automatically converted to `PNG`, so here is an example for this scenario.
 
