@@ -30,8 +30,6 @@ private
 
 def validate_params(params)
   return "expected params to include :image_file, :mime_type" unless params.key?(:image_file) && params.key?(:mime_type)
-  unless params[:image_file].is_a?(File) || params[:image_file][:tempfile]
-    return "expected param :image_file to be a File"
-  end
+  return "expected param :image_file to be a File" unless params[:image_file].is_a?(File) || params[:image_file][:tempfile]
   return "expected param :mime_type to be a String" unless params[:mime_type].is_a?(String)
 end
