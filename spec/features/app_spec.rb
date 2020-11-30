@@ -14,14 +14,7 @@ describe "image resizer app", type: :feature do
   end
 
   describe "post /image" do
-    context "without params" do
-      it "returns status code 400" do
-        response = post "/image"
-        expect(response.status).to eq 400
-      end
-    end
-
-    context "with valid params :image_file and :mime_type" do
+    context "with params :image_file and :mime_type" do
       let(:test_images_root_path) { "spec/fixtures/image_files/" }
       let(:test_image_file_name) { "" }
       let(:mime_type) { "" }
