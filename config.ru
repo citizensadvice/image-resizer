@@ -2,4 +2,7 @@
 
 require "./app"
 
-run Sinatra::Application
+set :bind, "0.0.0.0"
+set :port, 4567
+
+Sinatra::Application.run!
