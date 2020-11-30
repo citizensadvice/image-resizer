@@ -9,4 +9,4 @@ services:
       - 4567:4567
     volumes:
       - .:/app
-      - ./spec/fixtures/image_files:/app/image_files
+      - ./spec/fixtures/image_files:/app/spec/fixtures/image_files
