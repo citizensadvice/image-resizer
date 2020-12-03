@@ -24,7 +24,7 @@ node("docker && awsaccess") {
 
   stage("test"){
     dockerImage.inside {
-      sh "rspec"
+      sh "bundle exec rspec"
     }
   }
 
