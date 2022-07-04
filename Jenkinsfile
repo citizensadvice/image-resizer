@@ -8,7 +8,6 @@ dockerImage = null
 app = "image-resizer"
 
 node("docker && awsaccess") {
-  
   cleanWs()
 
   stage("build") {
@@ -22,6 +21,12 @@ node("docker && awsaccess") {
     }
   }
 
+  stage("lint"){
+    dockerImage.inside {
+      sh "bundle exec rubocop"
+    }
+  }
+
   stage("test"){
     dockerImage.inside {
       sh "bundle exec rspec"
@@ -30,9 +35,18 @@ node("docker && awsaccess") {
 
   stage("push to ECR") {
     docker.withRegistry(dockerRegistryUrl, ecrCredentialId) {
-      dockerImage.push()
-      dockerImage.push("latest")
-      sh "docker rmi ${app}:${dockerTag} -f || true"
+      image_tag = false
+      if (env.BRANCH_NAME == "main") {
+        image_tag = "latest"
+      }
+      if (env.CHANGE_BRANCH ==~ /^v\d+((.\d+){0,2}(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?)?$/) {
+        image_tag = env.CHANGE_BRANCH
+      }
+      if (image_tag) {
+        echo "pushing to registry ${ecrRepoName}:${image_tag}"
+        sh "docker buildx create --use"
+        sh "docker buildx build --push --tag='${dockerRegistryDomain}/${ecrRepoName}:${image_tag}' --platform=linux/amd64,linux/arm64 ."
+      }
     }
   }
 }

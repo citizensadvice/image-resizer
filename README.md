@@ -24,16 +24,22 @@ If you are running the app locally outside of Docker then you can run it using:
 rackup
 ```
 
-There are some Docker build, run, and test scripts in the `docker` folder. These are designed for development and testing purposes only.
+## Building the image
 
-- `docker/build.sh`
-- `docker/start.sh`
-- `docker/test.sh` (runs the Ruby tests)
+```bash
+# Build
+docker build -t citizensadvice/image-resizer .
 
-The url is `http:localhost:4567`
+# Test
+docker-compose run --rm app bundle exec rspec
+
+# Start
+docker-compose up
+```
+
+The url is http://localhost:4567
 
 Visiting this in a web browser displays a liveness message to confirm the service is running.
-
 
 ## Resizing images
 
@@ -45,7 +51,6 @@ The endpoint for resizing images is `/image` and it requires the params posted a
 Image files in the format `TIFF` are converted to `PNG` automatically.
 
 The returned images are only resized if they have dimensions larger than `800px`, in which case they are resized maintaining their aspect ratio so their dimensions are a maximum of `900px`.
-
 
 ## Testing
 
