@@ -5,7 +5,7 @@ dockerRegistryUrl = "https://${dockerRegistryDomain}"
 ecrCredentialId = 'ecr:eu-west-1:cita-devops'
 
 dockerImage = null
-app = "image-resizer"
+ecrRepoName = "image-resizer"
 
 node("docker && awsaccess") {
   cleanWs()
@@ -17,7 +17,7 @@ node("docker && awsaccess") {
     currentBuild.displayName = "${env.BUILD_NUMBER}: ${dockerTag}"
 
     withDockerRegistry(registry: [credentialsId: 'docker_hub']) {
-      dockerImage = docker.build("${app}:${dockerTag}")
+      dockerImage = docker.build("${ecrRepoName}:${dockerTag}")
     }
   }
 
