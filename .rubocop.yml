@@ -1,11 +1,9 @@
-AllCops:
-  TargetRubyVersion: 2.7.2
-  NewCops: enable
-
 inherit_gem:
   citizens-advice-style:
     - default.yml
 
-inherit_mode:
-  merge:
-    - Exclude
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false

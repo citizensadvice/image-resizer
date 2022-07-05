@@ -1,39 +1,6 @@
-# Image Resizer
+# Image resizer
 
 A Ruby app to resize images built with the Sinatra web framework and ImageMagick library.
-
-## Setup
-
-You will need to install the dependencies for the Ruby `image_processing` gem. Here is the homebrew command for installing `imagemagick` on a mac.
-
-```sh
-brew install imagemagick
-```
-
-Then you can install the Ruby gems and start the app locally.
-
-```sh
-bundle install
-```
-
-## Run the app
-
-If you are running the app locally outside of Docker then you can run it using:
-
-```rb
-rackup
-```
-
-There are some Docker build, run, and test scripts in the `docker` folder. These are designed for development and testing purposes only.
-
-- `docker/build.sh`
-- `docker/start.sh`
-- `docker/test.sh` (runs the Ruby tests)
-
-The url is `http:localhost:4567`
-
-Visiting this in a web browser displays a liveness message to confirm the service is running.
-
 
 ## Resizing images
 
@@ -46,23 +13,43 @@ Image files in the format `TIFF` are converted to `PNG` automatically.
 
 The returned images are only resized if they have dimensions larger than `800px`, in which case they are resized maintaining their aspect ratio so their dimensions are a maximum of `900px`.
 
+## Local development
 
-## Testing
+You will need to install the dependencies for the Ruby `image_processing` gem. Here is the homebrew command for installing `imagemagick` on a mac.
 
-The automated tests are in the `spec` folder and there are test image files in the `spec/fixtures/image_files` folder. To run the Ruby tests use the command:
+```sh
+# install dependencies
+brew install imagemagick
 
-```rb
+# install app
+bundle install
+
+# start
+rackup
+
+# Lint
+bundle exec rubocop
+
+# Test
 bundle exec rspec
 ```
 
-They can also be run inside a Docker container using the scripts in the `docker` folder.
+## Docker development
 
-```sh
-docker/build.sh
-docker/test.sh
+```bash
+# Build
+docker build -t citizensadvice/image-resizer .
+
+# Test
+docker-compose run --rm app bundle exec rspec
+
+# Start
+docker-compose up
 ```
 
-To manually test the image resizer app, you can run the app locally and then use `curl` via the command line. Here are some example commands that send image files to the app and then save the resized image that is returned.
+The url is http://localhost:4567
+
+Visiting this in a web browser displays a liveness message to confirm the service is running.
 
 ### `PNG`
 
