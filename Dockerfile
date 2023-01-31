@@ -24,7 +24,7 @@ ENV RACK_ENV=production
 
 RUN apk update \
  && apk upgrade \
- && apk --no-cache add imagemagick tiff-tools
+ && apk --no-cache add imagemagick tiff-tools file
 
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 
