@@ -117,6 +117,30 @@ describe "image resizer app", type: :feature do
       end
     end
 
+    context "with a .bmp image" do
+      let(:test_image_file_name) { "test-bmp.bmp" }
+
+      it "returns the image converted to PNG and resized to maximum dimensions of 800px" do
+        post "/image", image_file: image_file
+
+        expect(last_response.status).to eq 200
+        expect(resized_image.type).to eq "PNG"
+        expect(resized_image.dimensions).to eq [800, 533]
+      end
+    end
+
+    context "with a .webp image" do
+      let(:test_image_file_name) { "test-webp.webp" }
+
+      it "returns the image converted to PNG and resized to maximum dimensions of 800px" do
+        post "/image", image_file: image_file
+
+        expect(last_response.status).to eq 200
+        expect(resized_image.type).to eq "PNG"
+        expect(resized_image.dimensions).to eq [320, 214]
+      end
+    end
+
     context "with a custom width" do
       let(:test_image_file_name) { "test-png-1102x1287px.png" }
 

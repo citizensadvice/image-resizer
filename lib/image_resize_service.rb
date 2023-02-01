@@ -6,6 +6,12 @@ require "svg_optimizer"
 class ImageResizeService
   RESIZE_WIDTH = 800
   RESIZE_HEIGHT = 800
+  KEEP_AS_TYPE = [
+    "image/png",
+    "image/jpeg",
+    "image/gif",
+    "image/svg+xml"
+  ].freeze
 
   def self.call(...)
     new(...).call
@@ -36,14 +42,14 @@ class ImageResizeService
 
   def resize_image
     file = @file
-    file = copy_tiff(@file) if requires_conversion?
+    file = copy_tiff(@file) if mime_type == "image/tiff"
     pipeline = ImageProcessing::MiniMagick.source(file)
     pipeline = pipeline.convert("png").loader(page: 0) if requires_conversion?
     pipeline.resize_to_limit!(@width, @height)
   end
 
   def requires_conversion?
-    mime_type == "image/tiff"
+    !KEEP_AS_TYPE.include?(mime_type)
   end
 
   # https://www.imagemagick.org/discourse-server/viewtopic.php?t=33626

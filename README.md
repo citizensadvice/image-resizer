@@ -6,12 +6,16 @@ A Ruby app to resize images built with the Sinatra web framework and ImageMagick
 
 The endpoint for resizing images is `/image` and it requires the params posted as multi-part form data.
 
-- `mime_type` for example `image/png`
-- `image_file` for example an image in the format `.png, .jpg, .gif, and .tif`
+- `image_file` the image to be resized
+- `width` max width of the resized image in pixels. Defaults to 800
+- `height` max height of the resized image in pixels. Defaults to 800
 
-Image files in the format `TIFF` are converted to `PNG` automatically.
+Images will be resized maintaining their aspect ratio.
 
-The returned images are only resized if they have dimensions larger than `800px`, in which case they are resized maintaining their aspect ratio so their dimensions are a maximum of `900px`.
+Images that or not a png, gif, svg or jpeg will be converted to a png.
+The full list of supported image types is whatever installed version of imagemagick supports.
+
+SVG images will be optimised, but not have their dimensions modified.
 
 ## Local development
 
