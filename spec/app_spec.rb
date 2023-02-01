@@ -3,11 +3,12 @@
 describe "image resizer app", type: :feature do
   let(:image_file) { Rack::Test::UploadedFile.new("spec/fixtures/image_files/#{test_image_file_name}") }
   let(:test_image_file_name) { "test-png-small-314x580px.png" }
-  let(:resized_image) do
+  let(:resized_image_path) do
     path = Tempfile.new.path
     File.write(path, last_response.body, binmode: true)
-    MiniMagick::Image.new(path)
+    path
   end
+  let(:resized_image) { MiniMagick::Image.new(resized_image_path) }
 
   describe "base url liveness check" do
     it "returns status" do
@@ -146,7 +147,7 @@ describe "image resizer app", type: :feature do
       it "optimises the image" do
         post "/image", image_file: image_file
 
-        expect(resized_image.type).to eq "SVG"
+        expect(`file --brief --mime-type #{resized_image_path}`.chomp).to eq "image/svg+xml"
         expect(last_response.body.size.to_f / File.open(image_file).size).to be_between(0.6, 0.8)
       end
     end
