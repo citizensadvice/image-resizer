@@ -1,4 +1,4 @@
-FROM ruby:3.1.2-alpine3.16 as builder
+FROM ruby:3.2.0-alpine3.17 as builder
 
 ENV LANG C.UTF-8
 WORKDIR /app
@@ -17,14 +17,14 @@ RUN gem install bundler \
 
 #################################################
 
-FROM ruby:3.1.2-alpine3.16
+FROM ruby:3.2.0-alpine3.17
 
 WORKDIR /app
 ENV RACK_ENV=production
 
 RUN apk update \
  && apk upgrade \
- && apk --no-cache add imagemagick tiff-tools
+ && apk --no-cache add imagemagick tiff-tools file gcompat
 
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 
