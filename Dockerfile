@@ -1,4 +1,4 @@
-FROM ruby:3.2.0-alpine3.17 as builder
+FROM ruby:3.2.1-alpine3.17 as builder
 
 ENV LANG C.UTF-8
 WORKDIR /app
@@ -17,7 +17,7 @@ RUN gem install bundler \
 
 #################################################
 
-FROM ruby:3.2.0-alpine3.17
+FROM ruby:3.2.1-alpine3.17
 
 WORKDIR /app
 ENV RACK_ENV=production

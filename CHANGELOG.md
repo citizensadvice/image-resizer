@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.2.0 _2023-02-13_
+
+- Added a version endpoint
+- New Relic now defaults to off
+- Updated to Ruby 3.2.1
+
 ## v2.1.0 _2023-01-31_
 
 - `mime_type` param is no longer required. The application will now determine the mime-type.
