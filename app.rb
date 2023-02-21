@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "lib/version"
 require_relative "lib/image_resize_service"
 require "sinatra"
 require "newrelic_rpm"
@@ -8,6 +9,10 @@ require "debug" if Sinatra::Base.development?
 get "/" do
   status 200
   body "Image Resizer service is running"
+end
+
+get "/version" do
+  VERSION
 end
 
 post "/image" do

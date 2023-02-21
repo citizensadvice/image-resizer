@@ -1,0 +1,17 @@
+# https://docs.newrelic.com/docs/agents/ruby-agent/installation-configuration/ruby-agent-configuration
+common: &default_settings
+  app_name: Image resizer
+  agent_enabled: <%= ENV["NEW_RELIC_LICENSE_KEY"].to_s.strip.empty? ? false : true %>
+  browser_monitoring:
+    auto_instrument: false
+
+development:
+  <<: *default_settings
+  agent_enabled: false
+
+test:
+  <<: *default_settings
+  monitor_mode: false
+
+production:
+  <<: *default_settings
