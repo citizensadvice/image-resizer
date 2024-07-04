@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.3.0 _2023-07-04_
+
+- Update to Ruby 3.3.3
+- Update to Alpine 20
+- Update dependencies
+
 ## v2.2.0 _2023-02-13_
 
 - Added a version endpoint
