@@ -7,3 +7,6 @@ RSpec/MultipleExpectations:
 
 RSpec/NestedGroups:
   Enabled: false
+
+RSpecRails:
+  Enabled: false
