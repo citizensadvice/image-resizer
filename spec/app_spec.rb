@@ -67,18 +67,6 @@ describe "image resizer app", type: :feature do
       end
     end
 
-    context "with a .png image that has smaller dimensions than 800px" do
-      let(:test_image_file_name) { "test-png-small-314x580px.png" }
-
-      it "returns the PNG image at its original size" do
-        post("/image", image_file:)
-
-        expect(last_response.status).to eq 200
-        expect(resized_image.type).to eq "PNG"
-        expect(resized_image.dimensions).to eq [314, 580]
-      end
-    end
-
     context "with a .png image that has larger dimensions than 800px" do
       let(:test_image_file_name) { "test-png-1102x1287px.png" }
 
@@ -88,6 +76,18 @@ describe "image resizer app", type: :feature do
         expect(last_response.status).to eq 200
         expect(resized_image.type).to eq "PNG"
         expect(resized_image.dimensions).to eq [685, 800]
+      end
+    end
+
+    context "with a .png image that has smaller dimensions than 800px" do
+      let(:test_image_file_name) { "test-png-small-314x580px.png" }
+
+      it "returns the PNG image at its original size" do
+        post("/image", image_file:)
+
+        expect(last_response.status).to eq 200
+        expect(resized_image.type).to eq "PNG"
+        expect(resized_image.dimensions).to eq [314, 580]
       end
     end
 
