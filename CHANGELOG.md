@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.3.1 _2024-08-05_
+
+- Update to Ruby 3.3.4
+- Update dependencies
+
 ## v2.3.0 _2023-07-04_
 
 - Update to Ruby 3.3.3
