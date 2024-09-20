@@ -35,6 +35,7 @@ GEM
     ffi (1.17.0-aarch64-linux-musl)
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-darwin)
+    ffi (1.17.0-x86_64-linux-gnu)
     ffi (1.17.0-x86_64-linux-musl)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
@@ -69,7 +70,7 @@ GEM
       racc
     psych (5.1.2)
       stringio
-    puma (6.4.2)
+    puma (6.4.3)
       nio4r (~> 2.0)
     racc (1.8.0)
     rack (3.1.6)
@@ -163,6 +164,7 @@ PLATFORMS
   arm64-darwin-21
   x86_64-darwin-21
   x86_64-darwin-23
+  x86_64-linux
   x86_64-linux-musl
 
 DEPENDENCIES
