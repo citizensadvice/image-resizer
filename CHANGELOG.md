@@ -2,6 +2,7 @@
 
 ## v2.4.0 _2025-10-14_
 
+- Added additional logging of file type and dimensions
 - Update to Ruby 3.4.7
 - Update to Alpine 22
 - Update dependencies

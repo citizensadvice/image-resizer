@@ -20,7 +20,7 @@ post "/image" do
   halt 400, "no image file was provided" unless image_file.is_a?(Tempfile)
 
   options = { width:, height: }.compact
-  resized_image = ImageResizeService.call(image_file, **options)
+  resized_image = ImageResizeService.call(image_file, **options, logger: request.logger)
   status 200
   body resized_image
 end
