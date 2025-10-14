@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v2.4.0 _2025-10-14_
+
+- Update to Ruby 3.4.7
+- Update to Alpine 22
+- Update dependencies
+- Add jemalloc
+- Enable YJIT
+
 ## v2.3.0 _2023-07-04_
 
 - Update to Ruby 3.3.3

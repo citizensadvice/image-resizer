@@ -13,7 +13,7 @@ The endpoint for resizing images is `/image` and it requires the params posted a
 Images will be resized maintaining their aspect ratio.
 
 Images that or not a png, gif, svg or jpeg will be converted to a png.
-The full list of supported image types is whatever installed version of imagemagick supports.
+The full list of supported image types is whatever installed version of imagemagick supports (`identify -list format).
 
 SVG images will be optimised, but not have their dimensions modified.
 
@@ -45,10 +45,10 @@ bundle exec rspec
 docker build -t citizensadvice/image-resizer .
 
 # Test
-docker-compose run --rm app bundle exec rspec
+docker compose run --rm app bundle exec rspec
 
 # Start
-docker-compose up
+docker compose up
 ```
 
 The url is http://localhost:4567
@@ -79,4 +79,4 @@ For images in the `TIFF` format they are automatically converted to `PNG`, so he
 
 ```sh
 curl -X POST -F mime_type='image/tiff' -F image_file=@"./spec/fixtures/image_files/test-bad-tif-800x1000px.tif" http://localhost:4567/image --output test-tif-image-resizer.png
-``` 
+```
