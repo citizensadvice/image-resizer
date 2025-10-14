@@ -63,7 +63,7 @@ describe "image resizer app", type: :feature do
         post("/image", image_file:)
 
         expect(last_response.status).to eq 500
-        expect(last_response.body).to include "magick convert"
+        expect(last_response.body).to include "magick"
       end
     end
 

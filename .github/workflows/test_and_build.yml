@@ -1,13 +1,11 @@
 name: Build and publish to public ECR
 
 on:
-  push:
+  pull_request:
     branches:
       - main
       - "[0-9]*"
-      - "v[0-9]*"
-    tags:
-      - v*
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -19,22 +17,24 @@ jobs:
           docker build -t image-resizer .
       - name: Lint
         run: |
-          docker-compose run --rm app bundle exec rubocop
+          docker compose run --rm app bundle exec rubocop
       - name: Test
         run: |
-          docker-compose run -e APP_ENV=test --rm app bundle exec rspec
+          docker compose run -e APP_ENV=test --rm app bundle exec rspec
 
   build:
     name: Publish image
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     needs: test
     steps:
+      - uses: actions/checkout@v5
       - name: Build and push to ECR
-        uses: citizensadvice/build-and-push-action@v1
+        uses: citizensadvice/build-and-private-ecr-push-action@v3
         with:
-          aws_access_key: ${{ secrets.PUBLIC_PUSH_ECR_AWS_KEY }}
-          aws_secret_key: ${{ secrets.PUBLIC_PUSH_ECR_AWS_SECRET }}
-          dockerfile_context: '.'
           repository_name: image-resizer
-          multiarch_build: 'enabled'
           auth_token: ${{ secrets.GITHUB_TOKEN }}
+          multiarch_build: enabled
+          prod_image: true
