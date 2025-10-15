@@ -34,7 +34,7 @@ class ImageResizeService
   private
 
   def optimise_svg
-    temp = Tempfile.create
+    temp = Tempfile.new
     @file.rewind
     # https://github.com/fnando/svg_optimizer/issues/9 normalize space
     temp.write SvgOptimizer.optimize(@file.read).gsub(/\s+/, " ")
@@ -56,7 +56,7 @@ class ImageResizeService
 
   # https://www.imagemagick.org/discourse-server/viewtopic.php?t=33626
   def copy_tiff(file)
-    copied = Tempfile.create(binmode: true)
+    copied = Tempfile.new(binmode: true)
     system("tiffcp #{file.path} #{copied.path}", exception: true, err: File::NULL)
     copied
   end
