@@ -17,13 +17,15 @@ class ImageResizeService
     new(...).call
   end
 
-  def initialize(file, width: RESIZE_WIDTH, height: RESIZE_HEIGHT)
+  def initialize(file, logger:, width: RESIZE_WIDTH, height: RESIZE_HEIGHT)
     @file = file
     @width = width
     @height = height
+    @logger = logger
   end
 
   def call
+    log
     return optimise_svg if mime_type == "image/svg+xml"
 
     resize_image
@@ -54,7 +56,7 @@ class ImageResizeService
 
   # https://www.imagemagick.org/discourse-server/viewtopic.php?t=33626
   def copy_tiff(file)
-    copied = Tempfile.new(["copy", ".tif"], binmode: true)
+    copied = Tempfile.new(binmode: true)
     system("tiffcp #{file.path} #{copied.path}", exception: true, err: File::NULL)
     copied
   end
@@ -66,5 +68,12 @@ class ImageResizeService
   def sanitized_file_name
     # This is a bit paranoid as Ruby generates the file name
     @file.path.gsub(%r{[^\w/.-]}, "")
+  end
+
+  def log
+    image = MiniMagick::Image.open(@file)
+    @logger&.info { "type=#{image.type}, dimensions=#{image.dimensions}, size=#{image.size}" }
+  rescue MiniMagick::Error
+    @logger&.info { "type=#{mime_type}, size=#{@file.size}" }
   end
 end
