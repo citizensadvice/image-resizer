@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - name: Build
         run: |
           docker build -t image-resizer .
@@ -35,7 +35,7 @@ jobs:
         with:
           aws_access_key: ${{ secrets.PUBLIC_PUSH_ECR_AWS_KEY }}
           aws_secret_key: ${{ secrets.PUBLIC_PUSH_ECR_AWS_SECRET }}
-          dockerfile_context: '.'
+          dockerfile_context: "."
           repository_name: image-resizer
-          multiarch_build: 'enabled'
+          multiarch_build: "enabled"
           auth_token: ${{ secrets.GITHUB_TOKEN }}
