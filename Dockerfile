@@ -10,7 +10,7 @@ FROM base AS builder
 RUN apk add --update --no-cache build-base git yaml-dev imagemagick tiff-tools jemalloc
 
 WORKDIR $APP_ROOT
-COPY Gemfile* /app/
+COPY .ruby-version Gemfile* /app/
 
 RUN gem install bundler \
   && bundle install \
