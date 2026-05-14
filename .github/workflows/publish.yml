@@ -1,0 +1,32 @@
+name: Build and publish to public ECR
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+jobs:
+  lint:
+    name: Run linting
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    name: Run tests
+    uses: ./.github/workflows/test.yml
+
+  publish:
+    name: Build and publish image
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Build and push to ECR
+        uses: citizensadvice/build-and-push-action@ee9b56c48ba042c046398776b4bbab8af71ea7ba
+        with:
+          aws_access_key: ${{ secrets.PUBLIC_PUSH_ECR_AWS_KEY }}
+          aws_secret_key: ${{ secrets.PUBLIC_PUSH_ECR_AWS_SECRET }}
+          dockerfile_context: "."
+          repository_name: image-resizer
+          multiarch_build: "enabled"
+          auth_token: ${{ secrets.GITHUB_TOKEN }}
+    needs: test

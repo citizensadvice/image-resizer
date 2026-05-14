@@ -1,0 +1,15 @@
+name: Run tests
+
+on: workflow_call
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - name: Build
+        run: |
+          docker build -t image-resizer .
+      - name: Run tests
+        run: |
+          docker compose run -e APP_ENV=test --rm app bundle exec rspec
