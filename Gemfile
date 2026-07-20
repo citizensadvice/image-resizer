@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby file: ".ruby-version"
 
 gem "image_processing"
-gem "mini_magick", "~> 5.0"
+gem "mini_magick", "~> 5.3"
 gem "puma"
 gem "rackup"
 gem "sinatra"
