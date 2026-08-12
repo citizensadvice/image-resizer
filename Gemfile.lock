@@ -43,7 +43,7 @@ GEM
     erb (6.0.4)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
-    image_processing (2.0.2)
+    image_processing (2.0.3)
     io-console (0.8.2)
     irb (1.18.0)
       pp (>= 0.6.0)
@@ -54,7 +54,7 @@ GEM
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
-    mini_magick (5.3.2)
+    mini_magick (5.3.3)
       logger
     minitest (5.27.0)
     multi_json (1.17.0)
