@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.5.1 _2026-10-27_
+
+- Update to Ruby 3.4.12
+- Update to Alpine 3.24
+
 ## v2.4.0 _2025-10-14_
 
 - Added additional logging of file type and dimensions
