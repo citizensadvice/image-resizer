@@ -1,4 +1,4 @@
-FROM ruby:3.4.12-alpine3.24 AS base
+FROM ruby:4.0-alpine3.24 AS base
 
 ENV LANG=C.UTF-8
 ENV APP_ROOT=/app
